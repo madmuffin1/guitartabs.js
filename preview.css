@@ -1,0 +1,9 @@
+@import url("lib/epiceditor/epiceditor/themes/preview/github.css");
+
+.chord {
+  position: relative;
+  top: -1em;
+  display:inline-block;
+  width: 0;
+  overflow:visible;
+}

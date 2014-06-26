@@ -1,0 +1,3 @@
+[submodule "lib/epiceditor"]
+	path = lib/epiceditor
+	url = https://github.com/OscarGodson/EpicEditor.git
