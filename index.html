@@ -3,19 +3,43 @@
 
 <head>
     <meta charset="utf-8"/>
-    <script src="lib/epiceditor/epiceditor/js/epiceditor.js" type="text/javascript"></script>
-    <title>JesusFreaks Lieder - Herz (Obadja) bearbeiten</title>
+    <script src="lib/epiceditor/epiceditor/js/epiceditor.min.js" type="text/javascript"></script>
+    <script src="lib/revealjs/lib/js/head.min.js"></script>
+    <script src="lib/revealjs/js/reveal.js"></script>
+    <link rel="stylesheet" href="lib/revealjs/css/reveal.min.css">
+    <link rel="stylesheet" href="lib/revealjs/css/theme/night.css" id="theme" disabled="true">
+    <link rel="stylesheet" href="chord.css">
+    <style>
+        .reveal p {
+            line-height: 2em !important;
+        }
+
+        .reveal #slide.nochords p {
+            line-height: inherit !important;
+
+        }
+
+        .reveal #slide.nochords p .chord {
+            display:none;
+        }
+
+        span.chord {
+            font-style:italic;
+        }
+
+    </style>
+
+    <title>guitartabs.js - Edit song</title>
 </head>
 
 <body>
+    <div id="editor">
 <textarea id="song" style="display:none;">## HERZ
 *Obadja*
-
 
 [a]Jes[G]us wir lieben [C7]dich [(C9)]
 
 [a]Jes[G]us wir brauchen [C]dich [(C9)]
-
 
 Wir wollen [F]bei dir sein [C]
 
@@ -34,6 +58,33 @@ Wir wollen bei dir sein
 
 An deinem [a]Herz ...</textarea>
 <div id="epiceditor"></div>
+<input type="checkbox" id="show-chords-on-slides">
+<label for="show-chords-on-slides">Include tabs on slide</label>
+<button onClick="javascript:showSlide();">Show slide for song</button>
+
+<p> Slide Theme:
+    <a href="?#/">Default</a> -
+    <a href="?theme=sky#/">Sky</a> -
+    <a href="?theme=beige#/">Beige</a> -
+    <a href="?theme=simple#/">Simple</a> -
+    <a href="?theme=serif#/">Serif</a> -
+    <a href="?theme=night#/">Night</a>
+    <a href="?theme=moon#/">Moon</a> -
+    <a href="?theme=solarized#/">Solarized</a></p>
+<p>Choose Font:
+    <a href="javascript:(function(e,a,g,h,f,c,b,d){if(!(f=e.jQuery)||g&gt;f.fn.jquery||h(f)){c=a.createElement(&quot;script&quot;);c.type=&quot;text/javascript&quot;;c.src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/&quot;+g+&quot;/jquery.min.js&quot;;c.onload=c.onreadystatechange=function(){if(!b&amp;&amp;(!(d=this.readyState)||d==&quot;loaded&quot;||d==&quot;complete&quot;)){h((f=e.jQuery).noConflict(1),b=1);f(c).remove()}};a.documentElement.childNodes[0].appendChild(c)}})(window,document,&quot;1.3.2&quot;,function($,L){var googleFonts=[&quot;Cantarell&quot;,&quot;Cardo&quot;,&quot;Crimson Text&quot;,&quot;Droid Sans&quot;,&quot;Droid Sans Mono&quot;,&quot;Droid Serif&quot;,&quot;IM Fell&quot;,&quot;Inconsolata&quot;,&quot;Josefin Sans Std Light&quot;,&quot;Lobster&quot;,&quot;Molengo&quot;,&quot;Nobile&quot;,&quot;OFL Sorts Mill Goudy TT&quot;,&quot;Old Standard TT&quot;,&quot;Reenie Beanie&quot;,&quot;Tangerine&quot;,&quot;Vollkorn&quot;,&quot;Yanone Kaffeesatz&quot;],headerSel=&quot;span.chord&quot;,bodySel=&quot;.reveal p&quot;,$headerStyle=$('&lt;style type=&quot;text/css&quot;&gt;&lt;/style&gt;'),$bodyStyle=$('&lt;style type=&quot;text/css&quot;&gt;&lt;/style&gt;'),$chooser=$('&lt;div class=&quot;google-font-chooser-wrapper&quot; style=&quot;font-family: helvetica, sans-serif; padding: 5px; background-color: #222; color:#fff; position: fixed; bottom: 0; left: 0; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px&quot;&gt;&lt;span class=&quot;chooser-title&quot; style=&quot;-moz-transform-origin: 0% 50%;&quot;&gt;Google Font Chooser&lt;/span&gt;&lt;div class=&quot;google-font-chooser&quot; style=&quot;display:none; float: left;&quot;&gt;&lt;h3 style=&quot;color:#fff;&quot;&gt;Griffe&lt;/h3&gt;&lt;h4 style=&quot;color:#fff; font-size: .8em;&quot;&gt;'+headerSel+'&lt;/h4&gt;&lt;ul id=&quot;google-fonts-headers-select&quot;&gt;&lt;/ul&gt;&lt;/div&gt;&lt;div class=&quot;google-font-chooser&quot; style=&quot;display:none; float: left;&quot;&gt;&lt;h3 style=&quot;color:#fff;&quot;&gt;Liedschrift&lt;/h3&gt;&lt;h4 style=&quot;color:#fff; font-size: .8em;&quot;&gt;'+bodySel+'&lt;/h4&gt;&lt;ul id=&quot;google-fonts-body-select&quot;&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;');$.each(googleFonts,function(i,l){var font=l,fontLink=&quot;http://fonts.googleapis.com/css?family=&quot;+font.replace(/ /ig,&quot;+&quot;),headerLi=$('&lt;li style=&quot;cursor:pointer;&quot;&gt;'+font+&quot;&lt;/li&gt;&quot;).click(function(){if($(&quot;link[href=&quot;+fontLink+&quot;]&quot;).length===0){$(&quot;link:last&quot;).after(&quot;&lt;link href='&quot;+fontLink+&quot;' rel='stylesheet' type='text/css'/&gt;&quot;);}$headerStyle.html(headerSel+' { font-family: &quot;'+font+'&quot;, arial, sans-serif; }');$(this).attr(&quot;style&quot;,&quot;background-color: #eee; color: #222;&quot;).siblings().attr(&quot;style&quot;,&quot;cursor:pointer;&quot;);}),bodyLi=$('&lt;li style=&quot;cursor:pointer;&quot;&gt;'+font+&quot;&lt;/li&gt;&quot;).click(function(){if($(&quot;link[href=&quot;+fontLink+&quot;]&quot;).length===0){$(&quot;link:last&quot;).after(&quot;&lt;link href='&quot;+fontLink+&quot;' rel='stylesheet' type='text/css'/&gt;&quot;);}$bodyStyle.html(bodySel+'{ font-family: &quot;'+font+'&quot;, Helvetica, sans-serif; }');$(this).attr(&quot;style&quot;,&quot;background-color: #eee; color: #222;&quot;).siblings().attr(&quot;style&quot;,&quot;cursor:pointer;&quot;);});$(&quot;#google-fonts-headers-select&quot;,$chooser).append(headerLi);$(&quot;#google-fonts-body-select&quot;,$chooser).append(bodyLi);});$(&quot;body&quot;).append($headerStyle).append($bodyStyle).append($chooser);$chooser.find(&quot;span.chooser-title&quot;).css(&quot;cursor&quot;,&quot;pointer&quot;).toggle(function(){$(&quot;.google-font-chooser&quot;,$chooser).show(&quot;fast&quot;);$(this).html(&quot;X&quot;).css({position:&quot;absolute&quot;,top:&quot;5px&quot;,right:&quot;5px&quot;});},function(){$(&quot;.google-font-chooser&quot;,$chooser).hide(&quot;fast&quot;);$(this).html(&quot;Google Font Chooser&quot;).css({position:&quot;static&quot;,top:&quot;auto&quot;,right:&quot;auto&quot;,left:&quot;auto&quot;});});});">Google Fonts Chooser</a>
+</p>
+
+</div>
+
+<div id="hidden-slides" class="reveal" style="display:none;">
+    <div class="slides">
+        <section id="slide" style="height:100%; overflow-y:auto;">
+            ## empty
+        </section>
+    </div>
+</div>
+
 <script type="text/javascript">
 
 function markedAndChordify(text) {
@@ -43,6 +94,14 @@ function markedAndChordify(text) {
 
 function chordify(text) {
     return text.replace(/\[([^\n^\]]+)\]/g, "<span class='chord'>$1</span>");
+}
+
+function removeChordsOnSlide() {
+    document.querySelector('#slide').classList.add("nochords");
+}
+
+function showChordsOnSlide() {
+    document.querySelector('#slide').classList.remove("nochords");
 }
 
 var opts = {
@@ -60,6 +119,45 @@ var opts = {
 
 var editor = new EpicEditor(opts);
 editor.load();
+
+Reveal.initialize({
+    controls: false,
+    progress: false,
+    history: false,
+    center: true,
+    keyboard: false,
+    theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+    transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+});
+document.querySelector('#theme').disabled=true;
+
+function showSlide() {
+    document.getElementById('slide').innerHTML = markedAndChordify(editor.getElement('editor').body.innerHTML.replace(/\<br[\/]*>/g, '\n'));
+    if(document.querySelector('#show-chords-on-slides').checked) {
+        showChordsOnSlide();
+    } else {
+        removeChordsOnSlide();
+    }
+    document.getElementById('editor').style.display = "none";
+    document.getElementById('hidden-slides').style.display = "block";
+    document.querySelector('#theme').disabled=false;
+
+    // re-layout slides to have useful scale (otherwise it will stay with default scale)
+    Reveal.layout();
+
+    document.addEventListener('keydown', leavePresentationMode);
+}
+
+function leavePresentationMode(e) {
+    if (e.which == 27) {
+        document.getElementById('editor').style.display = "";
+        document.getElementById('hidden-slides').style.display = "none";
+        document.querySelector('#theme').disabled=true;
+        document.removeEventListener('keydown', leavePresentationMode)
+    }
+}
+
+
 
 </script>
 
