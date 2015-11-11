@@ -1,0 +1,23 @@
+{
+  "name": "guitartabs.js",
+  "version": "0.0.1",
+  "homepage": "https://github.com/madmuffin1/guitartabs.js",
+  "authors": [
+    "Patrick Brückner <patrick.brueckner@paddy-net.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "EpicEditor": "epiceditor#~0.2.3",
+    "reveal-js": "~2.6.2"
+  }
+}
